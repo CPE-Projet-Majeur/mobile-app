@@ -24,8 +24,8 @@ public class CanvasView extends View {
         this.paint = new Paint();
         this.points = new ArrayList<>();
         paint.setColor(0xFF000000);
-        paint.setStyle(Paint.Style.STROKE);
-        paint.setStrokeWidth(10);
+        paint.setStyle(Paint.Style.FILL_AND_STROKE);
+        paint.setStrokeWidth(20);
     }
 
     public void addPoint(Point point){
@@ -81,3 +81,5 @@ public class CanvasView extends View {
         return bitmap;
     }
 }
+
+// TODO : Canevas de taille multiple de 28 ?

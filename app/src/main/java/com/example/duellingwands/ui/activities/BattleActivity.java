@@ -8,7 +8,7 @@ import androidx.fragment.app.FragmentManager;
 
 import com.example.duellingwands.R;
 import com.example.duellingwands.databinding.BattleActivityBinding;
-import com.example.duellingwands.ui.fragments.Frag2;
+import com.example.duellingwands.ui.fragments.BattleFragment;
 
 public class BattleActivity extends AppCompatActivity {
 
@@ -22,7 +22,7 @@ public class BattleActivity extends AppCompatActivity {
         this.binding = DataBindingUtil.setContentView(this, R.layout.battle_activity);
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
-                .replace(R.id.fragmentContainerView, new Frag2())
+                .replace(R.id.fragmentContainerView, new BattleFragment())
                 .commit();
     }
 }

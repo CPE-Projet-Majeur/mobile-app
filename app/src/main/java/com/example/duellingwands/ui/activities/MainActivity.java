@@ -1,12 +1,15 @@
 package com.example.duellingwands.ui.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 
 import com.example.duellingwands.R;
 import com.example.duellingwands.databinding.MainActivityBinding;
+import com.example.duellingwands.ui.fragments.BattleFragment;
 import com.example.duellingwands.ui.fragments.MapFragment;
 import com.example.duellingwands.ui.fragments.UserFragment;
 import com.google.android.material.navigation.NavigationBarView.OnItemSelectedListener;
@@ -17,6 +20,8 @@ public class MainActivity extends AbstractActivity {
 
     private MainActivityBinding binding;
     private String currentFragment = "Map";
+
+    // ======================= LISTENERS =======================
 
     private final OnItemSelectedListener navListener = item -> {
         String title = Objects.requireNonNull(item.getTitle()).toString();
@@ -31,6 +36,9 @@ public class MainActivity extends AbstractActivity {
                 loadFragment(new UserFragment(), R.id.fragmentContainerView);
                 break;
             case "Settings":
+                break;
+            case "Battle":
+                loadFragment(new BattleFragment(), R.id.fragmentContainerView);
                 break;
             default:
                 break;
