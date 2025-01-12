@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="drawing_mode_labels">
+        <item>Gyroscope</item>
+        <item>Manuel</item>
+    </string-array>
+
+    <string-array name="drawing_mode_values">
+        <item>gyro</item>
+        <item>touch</item>
+    </string-array>
+</resources>

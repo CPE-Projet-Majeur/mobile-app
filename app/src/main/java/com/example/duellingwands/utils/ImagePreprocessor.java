@@ -3,6 +3,7 @@ package com.example.duellingwands.utils;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.os.Environment;
 import android.util.Log;
 
 import java.io.File;
@@ -17,11 +18,27 @@ public class ImagePreprocessor {
     //static final int MODEL_CHANNELS = 1;
 
     public static float[][] preprocessImage(Bitmap image, Context context) {
+        Bitmap bmp280 = Bitmap.createScaledBitmap(image, 280, 280, true);
+        saveBitmapToFile(bmp280, context, "bmp280.png"); // Dev
+        // Crop
+//        int[] bounds = findBoundingBox(bmp280);
+//        int minX = bounds[0] - 10;
+//        int minY = bounds[1] - 10;
+//        int maxX = bounds[2] + 10;
+//        int maxY = bounds[3] + 10;
+//        if (maxX < minX || maxY < minY) { // Nothing was drawn
+//            return new float[][] { new float[MODEL_WIDTH * MODEL_HEIGHT] };
+//        }
+//        int width = maxX - minX + 1;
+//        int height = maxY - minY + 1;
+//        Bitmap cropped = Bitmap.createBitmap(image, minX, minY, width, height);
+//        saveBitmapToFile(cropped, context, "cropped_image.png"); // Dev
         // Resize
-        Bitmap resizedImage = Bitmap.createScaledBitmap(image, MODEL_WIDTH, MODEL_HEIGHT, true);
+        Bitmap resizedImage = Bitmap.createScaledBitmap(bmp280, MODEL_WIDTH, MODEL_HEIGHT, true);
         float[][] pixels = new float[1][MODEL_WIDTH*MODEL_HEIGHT];
         // Dev
-        Bitmap grayscaleBitmap = Bitmap.createBitmap(MODEL_WIDTH, MODEL_HEIGHT, Bitmap.Config.ARGB_8888);
+            saveBitmapToFile(resizedImage, context, "resized_image.png");
+            Bitmap grayscaleBitmap = Bitmap.createBitmap(MODEL_WIDTH, MODEL_HEIGHT, Bitmap.Config.ARGB_8888);
         // Grayscale and normalize
         for (int x = 0; x < MODEL_WIDTH; x++) {
             for (int y = 0; y < MODEL_HEIGHT; y++) {
@@ -35,12 +52,37 @@ public class ImagePreprocessor {
                 grayscaleBitmap.setPixel(x, y, Color.rgb(grayscale, grayscale, grayscale));
             }
         }
-        // Save the grayscale image
+        // Save the grayscale image for visualization (Dev)
         saveBitmapToFile(grayscaleBitmap, context, "preprocessed_image.png");
+        Log.d("ImagePreprocessor",  "Path : "+Environment.getExternalStorageDirectory().toString());
 
         Log.d("ImagePreprocessor", "Image preprocessed : " + pixels.length + "x" + pixels[0].length);
         return pixels;
     }
+
+    private static int[] findBoundingBox(Bitmap bitmap) {
+        int width = bitmap.getWidth();
+        int height = bitmap.getHeight();
+
+        int minX = width, minY = height;
+        int maxX = -1, maxY = -1;
+        int whiteColor = Color.WHITE;
+
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                int color = bitmap.getPixel(x, y);
+                if (color != whiteColor) {
+                    if (x < minX) minX = x;
+                    if (x > maxX) maxX = x;
+                    if (y < minY) minY = y;
+                    if (y > maxY) maxY = y;
+                }
+            }
+        }
+
+        return new int[] { minX, minY, maxX, maxY };
+    }
+
 
     private static void saveBitmapToFile(Bitmap bitmap, Context context, String fileName) {
         try {

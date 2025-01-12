@@ -19,6 +19,7 @@ import com.example.duellingwands.R;
 import com.example.duellingwands.databinding.MainActivityBinding;
 import com.example.duellingwands.ui.fragments.BattleFragment;
 import com.example.duellingwands.ui.fragments.MapFragment;
+import com.example.duellingwands.ui.fragments.SettingsFragment;
 import com.example.duellingwands.ui.fragments.UserFragment;
 import com.google.android.material.navigation.NavigationBarView.OnItemSelectedListener;
 
@@ -44,6 +45,7 @@ public class MainActivity extends AbstractActivity {
                 loadFragment(new UserFragment(), R.id.fragmentContainerView);
                 break;
             case "Settings":
+                loadFragment(new SettingsFragment(), R.id.fragmentContainerView);
                 break;
             case "Battle":
                 loadFragment(new BattleFragment(), R.id.fragmentContainerView);

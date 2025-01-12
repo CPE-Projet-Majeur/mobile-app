@@ -3,16 +3,13 @@ package com.example.duellingwands.ui.views;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.NonNull;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 public class CanvasView extends View {
 
@@ -24,8 +21,12 @@ public class CanvasView extends View {
         this.paint = new Paint();
         this.points = new ArrayList<>();
         paint.setColor(0xFF000000);
-        paint.setStyle(Paint.Style.FILL_AND_STROKE);
-        paint.setStrokeWidth(20);
+        paint.setStyle(Paint.Style.STROKE);
+        paint.setStrokeWidth(50);
+        paint.setAntiAlias(true);
+        paint.setDither(true);
+        paint.setStrokeJoin(Paint.Join.ROUND);
+        paint.setStrokeCap(Paint.Cap.ROUND);
     }
 
     public void addPoint(Point point){
@@ -46,11 +47,6 @@ public class CanvasView extends View {
 
     public void clearPoints(){
         this.points.clear();
-    }
-
-    // debug
-    public void changeColorRandom() {
-        paint.setColor(Color.rgb(new Random().nextInt(256), new Random().nextInt(256), new Random().nextInt(256)));
     }
 
     @Override

@@ -20,7 +20,9 @@ import com.example.duellingwands.R;
 import com.example.duellingwands.databinding.CanvasBinding;
 import com.example.duellingwands.ui.acquisition.GyroscopeDrawingStrategy;
 import com.example.duellingwands.ui.acquisition.IDrawingStrategy;
+import com.example.duellingwands.ui.acquisition.TouchDrawingStrategy;
 import com.example.duellingwands.ui.views.CanvasView;
+import com.example.duellingwands.utils.ApplicationStateHandler;
 import com.example.duellingwands.viewmodel.BattleViewModel;
 
 public class BattleFragment extends Fragment {
@@ -53,9 +55,7 @@ public class BattleFragment extends Fragment {
         this.binding.buttonErase.setOnClickListener(view -> drawingStrategy.erase());
         this.binding.buttonCheckSpell.setOnClickListener(view -> this.viewModel.recognizeSpell(canvas.getBitmap(), requireContext()));
         // Set drawing strategy
-        SensorManager sensorManager = (SensorManager) requireActivity().getSystemService(SENSOR_SERVICE);
-        this.drawingStrategy = new GyroscopeDrawingStrategy(sensorManager);
-        //this.drawingStrategy = new TouchDrawingStrategy();
+        this.drawingStrategy = ApplicationStateHandler.getDrawingStrategy(requireContext());
         this.drawingStrategy.setCanvas(canvas);
         // Set viewmodel
         this.viewModel = new ViewModelProvider(this).get(BattleViewModel.class);
