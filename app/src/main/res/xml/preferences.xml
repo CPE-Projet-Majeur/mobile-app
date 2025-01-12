@@ -1,0 +1,10 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <ListPreference
+        android:key="drawing_mode"
+        android:title="Mode de dessin"
+        android:entries="@array/drawing_mode_labels"
+        android:entryValues="@array/drawing_mode_values"
+        android:defaultValue="gyro" />
+
+</PreferenceScreen>

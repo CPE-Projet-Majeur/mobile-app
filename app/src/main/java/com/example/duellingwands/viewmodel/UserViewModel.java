@@ -11,9 +11,10 @@ public class UserViewModel extends ViewModel {
 
     public UserViewModel() {
         user = new User();
-        // Initialize user data here
         user.setName("John Doe");
         user.setEmail("james.moore.wayne@example-pet-store.com");
+        user.setHouse("Gryffindor");
+        user.setAccount(100);
     }
 
     public User getUser() {

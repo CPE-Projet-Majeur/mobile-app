@@ -1,38 +1,42 @@
 package com.example.duellingwands.ui.activities;
 
-import static androidx.core.content.ContentProviderCompat.requireContext;
-
-import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
+import android.view.ViewGroup;
+import android.view.WindowManager;
 
-import androidx.annotation.NonNull;
+import androidx.activity.EdgeToEdge;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.databinding.DataBindingUtil;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 
 import com.example.duellingwands.R;
 import com.example.duellingwands.databinding.MainActivityBinding;
+import com.example.duellingwands.ui.fragments.BattleFragment;
 import com.example.duellingwands.ui.fragments.MapFragment;
+import com.example.duellingwands.ui.fragments.SettingsFragment;
 import com.example.duellingwands.ui.fragments.UserFragment;
 import com.google.android.material.navigation.NavigationBarView.OnItemSelectedListener;
-
-import org.osmdroid.config.Configuration;
 
 import java.util.Objects;
 
 public class MainActivity extends AbstractActivity {
 
     private MainActivityBinding binding;
+    private String currentFragment = "Map";
+
+    // ======================= LISTENERS =======================
 
     private final OnItemSelectedListener navListener = item -> {
         String title = Objects.requireNonNull(item.getTitle()).toString();
+        if (title.equals(this.currentFragment)) {
+            return true;
+        }
         switch (title) {
             case "Map":
                 loadFragment(new MapFragment(), R.id.fragmentContainerView);
@@ -41,10 +45,15 @@ public class MainActivity extends AbstractActivity {
                 loadFragment(new UserFragment(), R.id.fragmentContainerView);
                 break;
             case "Settings":
+                loadFragment(new SettingsFragment(), R.id.fragmentContainerView);
+                break;
+            case "Battle":
+                loadFragment(new BattleFragment(), R.id.fragmentContainerView);
                 break;
             default:
                 break;
         }
+        this.currentFragment = title;
         return true;
     };
 
