@@ -13,6 +13,10 @@
         android:title="Settings"
         android:icon="@drawable/settings"/>
     <item
+        android:id="@+id/trainingItem"
+        android:title="Training"
+        android:icon="@drawable/ic_launcher_background"/>
+    <item
         android:id="@+id/battleItem"
         android:title="Battle"
         android:icon="@drawable/ic_launcher_background"/>

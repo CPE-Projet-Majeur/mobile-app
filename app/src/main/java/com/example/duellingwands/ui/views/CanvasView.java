@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -15,6 +16,7 @@ public class CanvasView extends View {
 
     private final Paint paint;
     private final ArrayList<Point> points;
+    private View.OnTouchListener currentTouchListener;
 
     public CanvasView(Context context, AttributeSet attrs){
         super(context, attrs);
@@ -76,6 +78,20 @@ public class CanvasView extends View {
         draw(canvas); // Dessiner le contenu actuel sur le bitmap
         return bitmap;
     }
+
+    @Override
+    public void setOnTouchListener(View.OnTouchListener listener) {
+        super.setOnTouchListener(listener);
+        this.currentTouchListener = listener;
+        Log.d("CanvasView", "Listener défini : " + (listener != null ? listener.getClass().getSimpleName() : "null"));
+    }
+
+    public View.OnTouchListener getOnTouchListener() {
+        Log.d("CanvasView", "getOnTouchListener appelé");
+        return currentTouchListener;
+    }
+
+
 }
 
 // TODO : Canevas de taille multiple de 28 ?

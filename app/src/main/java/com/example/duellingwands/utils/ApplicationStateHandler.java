@@ -12,10 +12,17 @@ import com.example.duellingwands.ui.acquisition.GyroscopeDrawingStrategy;
 import com.example.duellingwands.ui.acquisition.IDrawingStrategy;
 import com.example.duellingwands.ui.acquisition.TouchDrawingStrategy;
 
+import okhttp3.WebSocket;
+import okhttp3.WebSocketListener;
+
 /**
  * This class is used to handle the application state. Used mostly for dependency injection.
  */
 public class ApplicationStateHandler {
+
+    private static WebSocket socket;
+
+    public static String SERVER_URL = "ws://example.com/socket";
 
     /**
      * This method is used to get the drawing strategy from the user's preferences.
@@ -34,5 +41,13 @@ public class ApplicationStateHandler {
                 SensorManager sensorManager = (SensorManager) context.getSystemService(SENSOR_SERVICE);
                 return new GyroscopeDrawingStrategy(sensorManager);
         }
+    }
+
+    public static WebSocket getSocket() {
+        return ApplicationStateHandler.socket;
+    }
+
+    public static void setSocket(WebSocket webSocket) {
+        ApplicationStateHandler.socket = webSocket;
     }
 }

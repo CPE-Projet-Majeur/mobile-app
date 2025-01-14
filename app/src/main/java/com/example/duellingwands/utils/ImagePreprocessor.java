@@ -19,11 +19,9 @@ public class ImagePreprocessor {
     static final int MODEL_HEIGHT = 28;
     //static final int MODEL_CHANNELS = 1;
 
-    private static int counter = 201;
-
     public static float[][] preprocessImage(Bitmap image, Context context) {
         Bitmap bmp280 = Bitmap.createScaledBitmap(image, 280, 280, true);
-        //saveBitmapToFile(bmp280, context, "bmp280.jpg"); // Dev
+        saveBitmapToFile(bmp280, context, "bmp280.jpg"); // Dev
         // Crop
 //        int[] bounds = findBoundingBox(bmp280);
 //        int minX = bounds[0] - 10;
@@ -39,12 +37,11 @@ public class ImagePreprocessor {
 //        saveBitmapToFile(cropped, context, "cropped_image.png"); // Dev
         // Resize
         Bitmap rotatedBitmap = rotateBitmap(bmp280, -90);
-        //saveBitmapToFile(rotatedBitmap, context, "rotated.jpg");
         Bitmap resizedImage = Bitmap.createScaledBitmap(rotatedBitmap, MODEL_WIDTH, MODEL_HEIGHT, true);
         float[][] pixels = new float[1][MODEL_WIDTH*MODEL_HEIGHT];
         // Dev
-            //saveBitmapToFile(resizedImage, context, "resized_image.jpg");
-            Bitmap grayscaleBitmap = Bitmap.createBitmap(MODEL_WIDTH, MODEL_HEIGHT, Bitmap.Config.ARGB_8888);
+        saveBitmapToFile(resizedImage, context, "resized_image.jpg");
+        Bitmap grayscaleBitmap = Bitmap.createBitmap(MODEL_WIDTH, MODEL_HEIGHT, Bitmap.Config.ARGB_8888);
         // Grayscale and normalize
         for (int x = 0; x < MODEL_WIDTH; x++) {
             for (int y = 0; y < MODEL_HEIGHT; y++) {
@@ -96,15 +93,11 @@ public class ImagePreprocessor {
         return Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(), matrix, true);
     }
 
-
     private static void saveBitmapToFile(Bitmap bitmap, Context context, String fileName) {
         try {
-            fileName = counter + ".jpg";
-            Log.d("ImagePreprocessor",  "fileName : "+ fileName);
-            counter = counter + 1;
             File file = new File(context.getExternalFilesDir(null), fileName);
             FileOutputStream outputStream = new FileOutputStream(file);
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
             outputStream.flush();
             outputStream.close();
             Log.d("ImagePreprocessor", "Image saved at: " + file.getAbsolutePath());

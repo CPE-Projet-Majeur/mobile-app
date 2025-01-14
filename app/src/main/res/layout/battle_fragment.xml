@@ -1,6 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.example.duellingwands.viewmodel.BattleViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <TextView
+                android:id="@+id/playerHpLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Player HP"
+                android:textSize="16sp"
+                android:textColor="@android:color/white"
+                android:layout_marginBottom="4dp" />
+
+            <ProgressBar
+                android:id="@+id/playerHpBar"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:max="100"
+                android:progress="@{viewModel.playerHp}"
+                android:progressTint="@android:color/holo_green_light"
+                android:layout_marginBottom="16dp" />
+
+            <TextView
+                android:id="@+id/opponentHpLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Opponent HP"
+                android:textSize="16sp"
+                android:textColor="@android:color/white"
+                android:layout_marginBottom="4dp" />
+
+            <ProgressBar
+                android:id="@+id/opponentHpBar"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:max="100"
+                android:progress="@{viewModel.opponentHp}"
+                android:progressTint="@android:color/holo_red_light"
+                android:layout_marginBottom="16dp" />
+        </LinearLayout>
+
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/drawingFragment"
+            android:name="com.example.duellingwands.ui.fragments.TrainingFragment"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2" />
+    </LinearLayout>
+
+</layout>

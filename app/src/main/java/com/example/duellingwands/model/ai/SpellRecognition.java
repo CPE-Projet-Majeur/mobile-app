@@ -47,11 +47,11 @@ public class SpellRecognition {
         Log.d("SpellRecognition", "Output DataType: " + outputDataType);
     }
 
-    public int recognizeSpell(float[][] input) {
+    public float[] recognizeSpell(float[][] input) {
         float[][] output = new float[1][NUM_CLASSES];
         interpreter.run(input, output);
         Log.d("SpellRecognition", "Output: " + Arrays.toString(output[0]));
-        return 0;
+        return output[0];
     }
 
     public void close(){

@@ -10,14 +10,14 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.duellingwands.R;
 import com.example.duellingwands.databinding.BattleActivityBinding;
-import com.example.duellingwands.ui.fragments.BattleFragment;
-import com.example.duellingwands.viewmodel.BattleViewModel;
+import com.example.duellingwands.ui.fragments.TrainingFragment;
+import com.example.duellingwands.viewmodel.TrainingViewModel;
 
 public class BattleActivity extends AppCompatActivity {
 
     private static final String TAG = "BattleActivity";
     private BattleActivityBinding binding;
-    private BattleViewModel viewModel;
+    private TrainingViewModel viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,9 +26,9 @@ public class BattleActivity extends AppCompatActivity {
         this.binding = DataBindingUtil.setContentView(this, R.layout.battle_activity);
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
-                .replace(R.id.fragmentContainerView, new BattleFragment())
+                .replace(R.id.fragmentContainerView, new TrainingFragment())
                 .commit();
-        this.viewModel = new ViewModelProvider(this).get(BattleViewModel.class);
+        this.viewModel = new ViewModelProvider(this).get(TrainingViewModel.class);
         this.viewModel.getIsFighting().observe(this, isFighting -> {
             Log.d(TAG, "isFighting: " + isFighting);
         });

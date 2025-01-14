@@ -2,6 +2,7 @@ package com.example.duellingwands.ui.fragments;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -20,21 +21,23 @@ import com.example.duellingwands.ui.views.CanvasView;
 import com.example.duellingwands.utils.ApplicationStateHandler;
 import com.example.duellingwands.viewmodel.TrainingViewModel;
 
-public class BattleFragment extends Fragment {
+public class TrainingFragment extends Fragment {
 
     private CanvasBinding binding;
     // private SensorManager sensorManager;
     private CanvasView canvas;
     private final View.OnTouchListener touchListener = ((view, motionEvent) -> {
-            if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
-                this.drawingStrategy.startDrawing();
-            } else if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
-                Log.d("BattleFragment", "Stop drawing");
-                this.drawingStrategy.stopDrawing();
-                view.performClick();
-            }
-            return true;
-        });
+        if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+            this.drawingStrategy.startDrawing();
+        } else if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
+            Pair<String, Float> result = this.viewModel.recognizeSpell(canvas.getBitmap(), requireContext());
+            binding.spellNameText.setText("Sort prédit : " + result.first);
+            binding.spellConfidenceText.setText("Confiance : " + String.format("%.2f%%", result.second * 100));
+            view.performClick();
+            this.drawingStrategy.stopDrawing();
+        }
+        return true;
+    });
 
     private TrainingViewModel viewModel;
 
@@ -48,7 +51,6 @@ public class BattleFragment extends Fragment {
         // Anchor listeners
         this.canvas.setOnTouchListener(this.touchListener);
         this.binding.buttonErase.setOnClickListener(view -> drawingStrategy.erase());
-        this.binding.buttonCheckSpell.setOnClickListener(view -> this.viewModel.recognizeSpell(canvas.getBitmap(), requireContext()));
         // Set drawing strategy
         this.drawingStrategy = ApplicationStateHandler.getDrawingStrategy(requireContext());
         this.drawingStrategy.setCanvas(canvas);
