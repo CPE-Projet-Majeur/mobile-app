@@ -7,6 +7,7 @@ import androidx.databinding.DataBindingUtil;
 
 import com.example.duellingwands.R;
 import com.example.duellingwands.databinding.MainActivityBinding;
+import com.example.duellingwands.ui.fragments.TournamentFragment;
 import com.example.duellingwands.ui.fragments.TrainingFragment;
 import com.example.duellingwands.ui.fragments.BattleFragment;
 import com.example.duellingwands.ui.fragments.MapFragment;
@@ -42,7 +43,7 @@ public class MainActivity extends AbstractActivity {
                 loadFragment(new TrainingFragment(), R.id.fragmentContainerView);
                 break;
             case "Battle":
-                loadFragment(new BattleFragment(), R.id.fragmentContainerView);
+                loadFragment(new TournamentFragment(), R.id.fragmentContainerView);
                 break;
             default:
                 break;

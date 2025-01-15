@@ -24,7 +24,8 @@ public class BattleFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState){
         binding = DataBindingUtil.inflate(inflater, R.layout.battle_fragment, container, false);
-        viewModel = new ViewModelProvider(this).get(BattleViewModel.class);
+        //viewModel = new ViewModelProvider(this).get(BattleViewModel.class);
+        viewModel = new ViewModelProvider(requireActivity()).get(BattleViewModel.class);
         binding.setViewModel(viewModel);
         return binding.getRoot();
     }

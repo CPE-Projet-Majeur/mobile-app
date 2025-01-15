@@ -52,6 +52,7 @@ dependencies {
     implementation(libs.constraintlayout)
     implementation(libs.preference.ktx)
     implementation(libs.preference)
+    implementation(libs.socket.io.client)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)

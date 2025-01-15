@@ -22,7 +22,7 @@ public class TrainingViewModel extends ViewModel {
     private static float THRESHOLD = 0.7f;
     private SpellRecognition spellRecognition;
     //private LiveData<Boolean> isFighting = new MutableLiveData<>(false);
-    private WebSocket webSocket = ApplicationStateHandler.getSocket();
+    //private WebSocket webSocket = ApplicationStateHandler.getSocket();
 
     public TrainingViewModel() {
         // this.socket = SocketManager.initializeSocket();

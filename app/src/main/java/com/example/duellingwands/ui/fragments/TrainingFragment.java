@@ -1,7 +1,6 @@
 package com.example.duellingwands.ui.fragments;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -15,7 +14,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.duellingwands.R;
-import com.example.duellingwands.databinding.CanvasBinding;
+import com.example.duellingwands.databinding.TrainingFragmentBinding;
 import com.example.duellingwands.ui.acquisition.IDrawingStrategy;
 import com.example.duellingwands.ui.views.CanvasView;
 import com.example.duellingwands.utils.ApplicationStateHandler;
@@ -23,7 +22,7 @@ import com.example.duellingwands.viewmodel.TrainingViewModel;
 
 public class TrainingFragment extends Fragment {
 
-    private CanvasBinding binding;
+    private TrainingFragmentBinding binding;
     // private SensorManager sensorManager;
     private CanvasView canvas;
     private final View.OnTouchListener touchListener = ((view, motionEvent) -> {
@@ -46,7 +45,7 @@ public class TrainingFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState){
-        this.binding = DataBindingUtil.inflate(inflater, R.layout.canvas, container, false);
+        this.binding = DataBindingUtil.inflate(inflater, R.layout.training_fragment, container, false);
         this.canvas = binding.canvasView;
         // Anchor listeners
         this.canvas.setOnTouchListener(this.touchListener);

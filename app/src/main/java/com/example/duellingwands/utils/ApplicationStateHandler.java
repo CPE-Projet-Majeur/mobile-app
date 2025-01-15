@@ -20,9 +20,9 @@ import okhttp3.WebSocketListener;
  */
 public class ApplicationStateHandler {
 
-    private static WebSocket socket;
+//    private static WebSocket socket;
 
-    public static String SERVER_URL = "ws://example.com/socket";
+    public static String SERVER_URL = "https://8950-134-214-214-76.ngrok-free.app";
 
     /**
      * This method is used to get the drawing strategy from the user's preferences.
@@ -43,11 +43,11 @@ public class ApplicationStateHandler {
         }
     }
 
-    public static WebSocket getSocket() {
-        return ApplicationStateHandler.socket;
-    }
-
-    public static void setSocket(WebSocket webSocket) {
-        ApplicationStateHandler.socket = webSocket;
-    }
+//    public static WebSocket getSocket() {
+//        return ApplicationStateHandler.socket;
+//    }
+//
+//    public static void setSocket(WebSocket webSocket) {
+//        ApplicationStateHandler.socket = webSocket;
+//    }
 }

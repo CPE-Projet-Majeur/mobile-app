@@ -10,27 +10,53 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.duellingwands.R;
 import com.example.duellingwands.databinding.BattleActivityBinding;
+import com.example.duellingwands.ui.fragments.BattleFragment;
+import com.example.duellingwands.ui.fragments.LoadingFragment;
 import com.example.duellingwands.ui.fragments.TrainingFragment;
+import com.example.duellingwands.viewmodel.BattleViewModel;
 import com.example.duellingwands.viewmodel.TrainingViewModel;
 
-public class BattleActivity extends AppCompatActivity {
+public class BattleActivity extends AbstractActivity {
 
     private static final String TAG = "BattleActivity";
     private BattleActivityBinding binding;
-    private TrainingViewModel viewModel;
+    private BattleViewModel viewModel;
+    private String battleId = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         this.binding = DataBindingUtil.setContentView(this, R.layout.battle_activity);
+
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
-                .replace(R.id.fragmentContainerView, new TrainingFragment())
+                .replace(R.id.fragmentContainerView, new LoadingFragment())
                 .commit();
-        this.viewModel = new ViewModelProvider(this).get(TrainingViewModel.class);
-        this.viewModel.getIsFighting().observe(this, isFighting -> {
-            Log.d(TAG, "isFighting: " + isFighting);
+
+        battleId = getIntent().getStringExtra("BattleID");
+        if (battleId != null) {
+            Log.d(TAG, "Received BattleID: " + battleId);
+            this.viewModel = new ViewModelProvider(this).get(BattleViewModel.class);
+            viewModel.setBattleId(Integer.parseInt(battleId));
+        } else {
+            Log.e(TAG, "BattleID not found in Intent extras");
+        }
+        observeBattleStart();
+
+    }
+    private void observeBattleStart() {
+        viewModel.getBattleStartEvent().observe(this, hasStarted -> {
+            if (hasStarted) {
+                Log.d(TAG, "Battle has started, loading BattleFragment...");
+                loadBattleFragment();
+            }
         });
     }
+
+    private void loadBattleFragment() {
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragmentContainerView, new BattleFragment())
+                .commit();
+    }
+
 }
