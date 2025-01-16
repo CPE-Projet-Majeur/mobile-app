@@ -23,7 +23,7 @@ import java.net.URISyntaxException;
 public class BattleViewModel extends ViewModel {
     private static final String TAG = "BattleViewModel";
     private Socket socket;
-    private int battleId;
+    private int battleId = -1;
 
     private static float THRESHOLD = 0.7f;
     private SpellRecognition spellRecognition;
@@ -40,7 +40,7 @@ public class BattleViewModel extends ViewModel {
     public final LiveData<Integer> opponentHp = _opponentHp;
 
     public BattleViewModel() {
-        // Initialisation du joueur pour les tests
+        // Initialisation du joueur pour les tests (temporaire)
         player = new User();
         player.setId(1);
         player.setFirstName("a");
@@ -92,7 +92,7 @@ public class BattleViewModel extends ViewModel {
         }
     }
 
-    // Écouteurs d'événements Socket.IO
+    ///////////////////// SOCKET IO LISTENERS ////////////////////
 
     private Emitter.Listener onConnect = args -> {
         Log.d(TAG, "Socket.IO connecté");
@@ -170,6 +170,9 @@ public class BattleViewModel extends ViewModel {
             try {
                 JSONObject data = new JSONObject();
                 data.put("weather", 0);
+                if(this.battleId != -1) {
+                    data.put("battleId", this.battleId);
+                }
                 socket.emit("BATTLE_WAITING", data);
                 Log.d(TAG, "Sent message to Socket.IO: " + data.toString());
             } catch (JSONException e) {

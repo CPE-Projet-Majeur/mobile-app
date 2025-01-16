@@ -31,9 +31,9 @@ public class BattleActivity extends AbstractActivity {
                 .commit();
 
         battleId = getIntent().getStringExtra("BattleID");
+        this.viewModel = new ViewModelProvider(this).get(BattleViewModel.class);
         if (battleId != null) {
             Log.d(TAG, "Received BattleID: " + battleId);
-            this.viewModel = new ViewModelProvider(this).get(BattleViewModel.class);
             viewModel.setBattleId(Integer.parseInt(battleId));
         } else {
             Log.e(TAG, "BattleID not found in Intent extras");
@@ -41,19 +41,22 @@ public class BattleActivity extends AbstractActivity {
         observeBattleStart();
 
     }
+
+    /**
+     * Observe the battle start event and load the BattleFragment when it's true.
+     */
     private void observeBattleStart() {
         viewModel.getBattleStartEvent().observe(this, hasStarted -> {
             if (hasStarted) {
                 Log.d(TAG, "Battle has started, loading BattleFragment...");
-                loadBattleFragment();
+                this.loadFragment(new BattleFragment(), R.id.fragmentContainerView);
             }
         });
     }
 
-    private void loadBattleFragment() {
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragmentContainerView, new BattleFragment())
-                .commit();
-    }
-
+//    private void loadBattleFragment() {
+//        getSupportFragmentManager().beginTransaction()
+//                .replace(R.id.fragmentContainerView, new BattleFragment())
+//                .commit();
+//    }
 }
