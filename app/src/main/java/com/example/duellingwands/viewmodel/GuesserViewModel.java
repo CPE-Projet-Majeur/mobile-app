@@ -21,8 +21,11 @@ public class TrainingViewModel extends ViewModel {
 
     private static float THRESHOLD = 0.7f;
     private SpellRecognition spellRecognition;
-    //private LiveData<Boolean> isFighting = new MutableLiveData<>(false);
-    //private WebSocket webSocket = ApplicationStateHandler.getSocket();
+
+    private final MutableLiveData<Boolean> spellPredicted = new MutableLiveData<>(false);
+    private String predictedSpell;
+    private int predictedSpellId;
+    private Float spellConfidence;
 
     public TrainingViewModel() {
         // this.socket = SocketManager.initializeSocket();
@@ -52,16 +55,41 @@ public class TrainingViewModel extends ViewModel {
                 guessedSpell = spellNames[maxIndex];
             }
         }
-        // si > threshold alors traitement pour envoit dans la socket
-        // socket.emit(BATTLE_RECEIVE_ACTION, data)
+
+        predictedSpell = guessedSpell;
+        predictedSpellId = maxIndex+1;
+        spellConfidence = maxValue;
+        if (maxValue >= THRESHOLD) {
+            spellPredicted.setValue(true);
+        } else {
+            spellPredicted.setValue(false);
+        }
         return new Pair<>(guessedSpell, maxValue);
     }
 
     public void modelClose(){
         this.spellRecognition.close();
     }
-    
-//    public LiveData<Boolean> getIsFighting() {
-//        return isFighting;
-//    }
+
+    public LiveData<Boolean> getSpellPredicted() {
+        return spellPredicted;
+    }
+
+    public String getPredictedSpell() {
+        return predictedSpell;
+    }
+
+    public Integer getPredictedSpellId() {
+        return predictedSpellId;
+    }
+
+    public Float getSpellConfidence() {
+        return spellConfidence;
+    }
+
+    public void resetPredictionState() {
+        predictedSpell = null;
+        spellConfidence = null;
+        spellPredicted.setValue(false);
+    }
 }
