@@ -10,14 +10,11 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.duellingwands.model.ai.SpellRecognition;
-import com.example.duellingwands.utils.ApplicationStateHandler;
 import com.example.duellingwands.utils.ImagePreprocessor;
 
 import java.io.IOException;
 
-import okhttp3.WebSocket;
-
-public class TrainingViewModel extends ViewModel {
+public class GuesserViewModel extends ViewModel {
 
     private static float THRESHOLD = 0.7f;
     private SpellRecognition spellRecognition;
@@ -27,7 +24,7 @@ public class TrainingViewModel extends ViewModel {
     private int predictedSpellId;
     private Float spellConfidence;
 
-    public TrainingViewModel() {
+    public GuesserViewModel() {
         // this.socket = SocketManager.initializeSocket();
     }
 

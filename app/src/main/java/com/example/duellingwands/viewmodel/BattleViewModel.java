@@ -6,9 +6,11 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.duellingwands.model.ai.SpellRecognition;
 import com.example.duellingwands.model.entities.User;
 import com.example.duellingwands.utils.ApplicationStateHandler;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -23,7 +25,11 @@ public class BattleViewModel extends ViewModel {
     private Socket socket;
     private int battleId;
 
+    private static float THRESHOLD = 0.7f;
+    private SpellRecognition spellRecognition;
+
     private final MutableLiveData<Boolean> battleStartEvent = new MutableLiveData<>(false);
+    private boolean awaitingResponse = false;
 
     private User player;
     private User opponent;
@@ -62,6 +68,7 @@ public class BattleViewModel extends ViewModel {
             // Configurer les options avec les paramètres de requête
             IO.Options options = new IO.Options();
             // Ajouter les paramètres de requête sous forme de chaîne
+            // TODO : use from shared preferences for user info
             options.query = "userId=" + player.getId()
                     + "&userLastName=" + player.getLastName()
                     + "&userFirstName=" + player.getFirstName()
@@ -73,7 +80,8 @@ public class BattleViewModel extends ViewModel {
             // Définir les écouteurs d'événements
             socket.on(Socket.EVENT_CONNECT, onConnect);
             socket.on(Socket.EVENT_DISCONNECT, onDisconnect);
-            socket.on("BATTLE_START", onBattleStart); // Événement personnalisé
+            socket.on("BATTLE_START", onBattleStart);
+            socket.on("BATTLE_SEND_ACTION", onBattleSendAction);
             socket.on(Socket.EVENT_CONNECT_ERROR, onConnectError);
 
             // Connecter le socket
@@ -101,39 +109,42 @@ public class BattleViewModel extends ViewModel {
         }
     };
 
-    private Emitter.Listener onMessageReceived = new Emitter.Listener() {
-        @Override
-        public void call(Object... args) {
-            if (args.length > 0) {
-                String message = (String) args[0];
-                Log.d(TAG, "Message reçu : " + message);
-
-                // Traitement des messages génériques si nécessaire
-                // Par exemple, parser le JSON et mettre à jour les LiveData
-                try {
-                    JSONObject json = new JSONObject(message);
-                    // Supposons que le JSON a un champ "action"
-                    String action = json.getString("action");
-                    if ("BATTLE_START".equals(action)) {
-                        battleStartEvent.postValue(true);
-                    } else if ("UPDATE_HP".equals(action)) {
-                        JSONObject data = json.getJSONObject("data");
-                        int playerHpValue = data.getInt("playerHp");
-                        int opponentHpValue = data.getInt("opponentHp");
-                        _playerHp.postValue(playerHpValue);
-                        _opponentHp.postValue(opponentHpValue);
-                    }
-                    // Ajoutez d'autres actions selon vos besoins
-                } catch (JSONException e) {
-                    Log.e(TAG, "Erreur lors du parsing du message JSON", e);
-                }
-            }
-        }
-    };
-
     private Emitter.Listener onBattleStart = args -> {
         Log.d(TAG, "Battle start event reçu");
+        JSONObject message = (JSONObject) args[0];
+        try {
+            this.setBattleId(message.getInt("battleId"));
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
         battleStartEvent.postValue(true);
+    };
+
+    private Emitter.Listener onBattleSendAction = args -> {
+        if (args.length > 0) {
+            try {
+                JSONArray Array = (JSONArray) args[0];
+                for (int i = 0; i < Array.length(); i++) {
+                    JSONObject message = Array.getJSONObject(i);
+                    int targetId = message.getInt("targetId");
+                    double damage = message.getDouble("damage");
+                    double remainingHp = message.getDouble("remainingHp");
+                    if (targetId == player.getId()) {
+                        Log.d(TAG, "Player hit! Damage: " + damage + ", Remaining HP: " + remainingHp);
+                        _playerHp.postValue((int) remainingHp);
+                    } else {
+                        Log.d(TAG, "Opponent hit! Damage: " + damage + ", Target ID: " + targetId + ", Remaining HP: " + remainingHp);
+                        _opponentHp.postValue((int) remainingHp);
+                    }
+                }
+                setAwaitingResponse(false);
+
+            } catch (JSONException e) {
+                Log.e(TAG, "Erreur lors du parsing des messages BATTLE_SEND_ACTION", e);
+            }
+        } else {
+            Log.e(TAG, "BATTLE_SEND_ACTION reçu sans données");
+        }
     };
 
     private Emitter.Listener onConnectError = new Emitter.Listener() {
@@ -157,16 +168,8 @@ public class BattleViewModel extends ViewModel {
     public void sendBattleWaiting() {
         if (socket != null) {
             try {
-                JSONObject message = new JSONObject();
-                message.put("action", "BATTLE_WAITING");
-
                 JSONObject data = new JSONObject();
-                data.put("battleId", battleId);
-                data.put("weather", 0); // Exemple de donnée, ajustez selon vos besoins
-
-                message.put("data", data);
-
-                //socket.emit("BATTLE_WAITING", data.toString());
+                data.put("weather", 0);
                 socket.emit("BATTLE_WAITING", data);
                 Log.d(TAG, "Sent message to Socket.IO: " + data.toString());
             } catch (JSONException e) {
@@ -175,6 +178,25 @@ public class BattleViewModel extends ViewModel {
         } else {
             Log.e(TAG, "Cannot send BATTLE_WAITING: socket or battleId is null");
         }
+    }
+
+    public void castSpell(Integer spellId, Float confidence) {
+        if (socket == null) {
+            Log.e("BattleViewModel", "Socket is null, cannot send BATTLE_RECEIVE_ACTION");
+            return;
+        }
+        try {
+            JSONObject data = new JSONObject();
+            data.put("spellId", spellId);
+            data.put("accuracy", confidence);
+            data.put("battleId", battleId);
+            socket.emit("BATTLE_RECEIVE_ACTION", data);
+            setAwaitingResponse(true);
+            Log.d("BattleViewModel", "Sent BATTLE_RECEIVE_ACTION to Socket.IO: " + data.toString());
+        } catch (JSONException e) {
+            Log.e("BattleViewModel", "Failed to construct JSON message for BATTLE_RECEIVE_ACTION", e);
+        }
+        Log.d("BattleViewModel", "Sort casté : " + spellId + " avec confiance : " + (confidence * 100) + "%");
     }
 
     /**
@@ -201,5 +223,13 @@ public class BattleViewModel extends ViewModel {
     public void setBattleId(int battleId) {
         this.battleId = battleId;
         Log.d(TAG, "Battle ID set in ViewModel: " + battleId);
+    }
+
+    public void setAwaitingResponse(boolean bool) {
+        awaitingResponse = bool;
+    }
+
+    public boolean getAwaitingResponse() {
+        return awaitingResponse;
     }
 }

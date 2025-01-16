@@ -5,6 +5,14 @@
         android:title="Map"
         android:icon="@drawable/map"/>
     <item
+        android:id="@+id/trainingItem"
+        android:title="Training"
+        android:icon="@drawable/training"/>
+    <item
+        android:id="@+id/tournamentItem"
+        android:title="Tournament"
+        android:icon="@drawable/tournament"/>
+    <item
         android:id="@+id/userItem"
         android:title="User"
         android:icon="@drawable/user"/>
@@ -12,12 +20,4 @@
         android:id="@+id/settingsItem"
         android:title="Settings"
         android:icon="@drawable/settings"/>
-    <item
-        android:id="@+id/trainingItem"
-        android:title="Training"
-        android:icon="@drawable/ic_launcher_background"/>
-    <item
-        android:id="@+id/battleItem"
-        android:title="Battle"
-        android:icon="@drawable/ic_launcher_background"/>
 </menu>

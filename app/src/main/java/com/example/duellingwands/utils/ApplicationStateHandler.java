@@ -22,7 +22,7 @@ public class ApplicationStateHandler {
 
 //    private static WebSocket socket;
 
-    public static String SERVER_URL = "https://8950-134-214-214-76.ngrok-free.app";
+    public static String SERVER_URL = "https://975c-134-214-214-70.ngrok-free.app";
 
     /**
      * This method is used to get the drawing strategy from the user's preferences.

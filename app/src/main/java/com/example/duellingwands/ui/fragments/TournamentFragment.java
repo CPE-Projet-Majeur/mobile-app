@@ -67,6 +67,14 @@ public class TournamentFragment extends Fragment {
     }
 
     private boolean isBattleIdValid() {
-        return battleId != null && !battleId.trim().isEmpty();
+        if (battleId == null || battleId.trim().isEmpty()) {
+            return false;
+        }
+        try {
+            Integer.parseInt(battleId.trim());
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
     }
 }

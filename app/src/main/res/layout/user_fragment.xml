@@ -75,7 +75,8 @@
                             android:layout_width="48dp"
                             android:layout_height="48dp"
                             android:contentDescription="oki"
-                            android:src="@drawable/ic_launcher_background" />
+                            android:scaleType="centerCrop"
+                            android:src="@{userViewModel.houseIcon}" />
 
                         <TextView
                             style="@style/TextAppearance.Material3.BodyLarge"

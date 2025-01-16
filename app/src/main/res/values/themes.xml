@@ -9,6 +9,7 @@
         <item name="colorOnPrimary">@color/white</item>
         <item name="colorSecondary">@color/gray</item>
         <item name="colorOnSecondary">@color/black</item>
+        <item name="colorOnWarning">@color/redLight</item>
 
         <item name="android:textColor">@color/black</item>
         <item name="android:windowBackground">@color/white</item>

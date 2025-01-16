@@ -3,7 +3,6 @@ package com.example.duellingwands.ui.activities;
 import android.os.Bundle;
 import android.util.Log;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
@@ -12,9 +11,7 @@ import com.example.duellingwands.R;
 import com.example.duellingwands.databinding.BattleActivityBinding;
 import com.example.duellingwands.ui.fragments.BattleFragment;
 import com.example.duellingwands.ui.fragments.LoadingFragment;
-import com.example.duellingwands.ui.fragments.TrainingFragment;
 import com.example.duellingwands.viewmodel.BattleViewModel;
-import com.example.duellingwands.viewmodel.TrainingViewModel;
 
 public class BattleActivity extends AbstractActivity {
 

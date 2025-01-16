@@ -18,7 +18,7 @@ import com.example.duellingwands.databinding.TrainingFragmentBinding;
 import com.example.duellingwands.ui.acquisition.IDrawingStrategy;
 import com.example.duellingwands.ui.views.CanvasView;
 import com.example.duellingwands.utils.ApplicationStateHandler;
-import com.example.duellingwands.viewmodel.TrainingViewModel;
+import com.example.duellingwands.viewmodel.GuesserViewModel;
 
 public class TrainingFragment extends Fragment {
 
@@ -38,7 +38,7 @@ public class TrainingFragment extends Fragment {
         return true;
     });
 
-    private TrainingViewModel viewModel;
+    private GuesserViewModel viewModel;
 
     private IDrawingStrategy drawingStrategy;
 
@@ -49,12 +49,12 @@ public class TrainingFragment extends Fragment {
         this.canvas = binding.canvasView;
         // Anchor listeners
         this.canvas.setOnTouchListener(this.touchListener);
-        this.binding.buttonErase.setOnClickListener(view -> drawingStrategy.erase());
+        this.binding.buttonErase.setOnClickListener(view -> resetUI());
         // Set drawing strategy
         this.drawingStrategy = ApplicationStateHandler.getDrawingStrategy(requireContext());
         this.drawingStrategy.setCanvas(canvas);
         // Set viewmodel
-        this.viewModel = new ViewModelProvider(this).get(TrainingViewModel.class);
+        this.viewModel = new ViewModelProvider(this).get(GuesserViewModel.class);
         this.viewModel.initialize(requireContext());
         return binding.getRoot();
     }
@@ -74,5 +74,18 @@ public class TrainingFragment extends Fragment {
     public void onDestroy() {
         super.onDestroy();
         this.viewModel.modelClose();
+    }
+
+    private void resetUI() {
+        drawingStrategy.erase();
+        binding.spellNameText.animate().alpha(0).setDuration(300).withEndAction(() -> {
+            binding.spellNameText.setText("Sort prédit : None");
+            binding.spellNameText.setAlpha(1);
+        });
+
+        binding.spellConfidenceText.animate().alpha(0).setDuration(300).withEndAction(() -> {
+            binding.spellConfidenceText.setText("Confiance : 0%");
+            binding.spellConfidenceText.setAlpha(1);
+        });
     }
 }

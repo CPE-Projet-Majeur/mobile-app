@@ -37,7 +37,7 @@
                 android:layout_weight="1"
                 android:text="Sort prédit : None"
                 android:textSize="16sp"
-                android:textColor="@android:color/white" />
+                android:textColor="?attr/colorOnSurface" />
 
             <TextView
                 android:id="@+id/spellConfidenceText"
@@ -45,7 +45,7 @@
                 android:layout_height="wrap_content"
                 android:text="Confiance : 0%"
                 android:textSize="16sp"
-                android:textColor="@android:color/white" />
+                android:textColor="?attr/colorOnSurface" />
         </LinearLayout>
 
         <Button

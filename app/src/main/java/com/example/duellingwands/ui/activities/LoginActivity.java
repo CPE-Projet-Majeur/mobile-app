@@ -47,6 +47,8 @@ public class LoginActivity extends AppCompatActivity {
             Log.d(TAG, "onActivityResult: NULL");
         }
 
+        // TODO : /les résultats du QR code vont dans shared preferences.
+
         super.onActivityResult(requestCode, resultCode, data);
     }
 }

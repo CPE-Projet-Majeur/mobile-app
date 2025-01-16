@@ -42,7 +42,7 @@ public class MainActivity extends AbstractActivity {
             case "Training":
                 loadFragment(new TrainingFragment(), R.id.fragmentContainerView);
                 break;
-            case "Battle":
+            case "Tournament":
                 loadFragment(new TournamentFragment(), R.id.fragmentContainerView);
                 break;
             default:
