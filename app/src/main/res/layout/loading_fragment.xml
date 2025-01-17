@@ -19,5 +19,13 @@
             android:textSize="18sp"
             android:textColor="?attr/colorOnSurface"
             android:layout_marginBottom="16dp" />
+
+        <Button
+            android:id="@+id/backButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Leave"
+            android:backgroundTint="@android:color/holo_red_light"
+            android:textColor="@android:color/white"/>
     </LinearLayout>
 </layout>

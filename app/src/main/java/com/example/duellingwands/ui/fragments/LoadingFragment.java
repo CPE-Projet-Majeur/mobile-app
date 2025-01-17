@@ -16,6 +16,11 @@ public class LoadingFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.waiting_fragment, container, false);
+        View view = inflater.inflate(R.layout.loading_fragment, container, false);
+        View backButton = view.findViewById(R.id.backButton);
+        backButton.setOnClickListener(v -> {
+            requireActivity().finish();
+        });
+        return view;
     }
 }

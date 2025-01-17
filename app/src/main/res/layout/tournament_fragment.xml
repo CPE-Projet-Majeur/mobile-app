@@ -43,15 +43,6 @@
             android:paddingHorizontal="16dp"
             android:layout_marginBottom="32dp">
 
-            <EditText
-                android:id="@+id/manualCodeInput"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Enter code"
-                android:inputType="text"
-                android:padding="12dp"
-                android:background="?attr/editTextBackground" />
-
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -60,6 +51,15 @@
                 android:textColor="?attr/colorOnSurface"
                 android:gravity="center"
                 android:layout_marginTop="8dp" />
+            
+            <EditText
+                android:id="@+id/manualCodeInput"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter code"
+                android:inputType="text"
+                android:padding="12dp"
+                android:background="?attr/editTextBackground" />
         </LinearLayout>
 
         <Button

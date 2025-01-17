@@ -28,7 +28,7 @@
                 android:id="@+id/playerHpLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Player HP"
+                android:text="Player HP : 100"
                 android:textSize="16sp"
                 android:textColor="?attr/colorOnSurface"
                 android:layout_marginBottom="4dp" />
@@ -47,7 +47,7 @@
                 android:id="@+id/opponentHpLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Opponent HP"
+                android:text="Opponent HP : 100"
                 android:textSize="16sp"
                 android:textColor="?attr/colorOnSurface"
                 android:layout_marginBottom="4dp" />
@@ -82,16 +82,16 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Sort prédit : None"
-                android:textSize="16sp"
+                android:text="Predicted spell: None"
+                android:textSize="14sp"
                 android:textColor="?attr/colorOnSurface" />
 
             <TextView
                 android:id="@+id/spellConfidenceText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Confiance : 0%"
-                android:textSize="16sp"
+                android:text="Confidence: 0%"
+                android:textSize="14sp"
                 android:textColor="?attr/colorOnSurface" />
         </LinearLayout>
 

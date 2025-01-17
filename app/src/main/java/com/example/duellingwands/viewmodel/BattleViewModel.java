@@ -31,6 +31,9 @@ public class BattleViewModel extends ViewModel {
     private final MutableLiveData<Boolean> battleStartEvent = new MutableLiveData<>(false);
     private boolean awaitingResponse = false;
 
+    private final MutableLiveData<String> _battleResult = new MutableLiveData<>(null);
+    public final LiveData<String> battleResult = _battleResult;
+
     private User player;
     private User opponent;
 
@@ -137,6 +140,7 @@ public class BattleViewModel extends ViewModel {
                         _opponentHp.postValue((int) remainingHp);
                     }
                 }
+                checkBattleEnd();
                 setAwaitingResponse(false);
 
             } catch (JSONException e) {
@@ -234,5 +238,42 @@ public class BattleViewModel extends ViewModel {
 
     public boolean getAwaitingResponse() {
         return awaitingResponse;
+    }
+
+    public void simulateHpLoss() {
+        new Thread(() -> {
+            try {
+                while (_opponentHp.getValue() > 0 && _playerHp.getValue() > 0) {
+                    Thread.sleep(100);
+                    int currentPlayerHp = _playerHp.getValue() != null ? _playerHp.getValue() : 100;
+                    int currentOpponentHp = _opponentHp.getValue() != null ? _opponentHp.getValue() : 100;
+
+                    _playerHp.postValue(Math.max(currentPlayerHp - 1, 0));
+                    _opponentHp.postValue(Math.max(currentOpponentHp - 1, 0));
+
+                    if (currentPlayerHp <= 0 && currentOpponentHp <= 0) {
+                        break;
+                    }
+                }
+                checkBattleEnd();
+            } catch (InterruptedException e) {
+                Log.e(TAG, "Simulation interrompue", e);
+            }
+        }).start();
+    }
+    private void checkBattleEnd() {
+        Integer playerHp = _playerHp.getValue() != null ? _playerHp.getValue() : 0;
+        Integer opponentHp = _opponentHp.getValue() != null ? _opponentHp.getValue() : 0;
+
+        if (playerHp <= 0 && opponentHp > 0) {
+            _battleResult.postValue("Defeat");
+            Log.d(TAG, "Player is defeated!");
+        } else if (opponentHp <= 0 && playerHp > 0) {
+            _battleResult.postValue("Victory");
+            Log.d(TAG, "Opponent is defeated!");
+        } else if (playerHp <= 0 && opponentHp <= 0) {
+            _battleResult.postValue("Draw");
+            Log.d(TAG, "It's a draw!");
+        }
     }
 }

@@ -30,8 +30,8 @@ public class TrainingFragment extends Fragment {
             this.drawingStrategy.startDrawing();
         } else if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
             Pair<String, Float> result = this.viewModel.recognizeSpell(canvas.getBitmap(), requireContext());
-            binding.spellNameText.setText("Sort prédit : " + result.first);
-            binding.spellConfidenceText.setText("Confiance : " + String.format("%.2f%%", result.second * 100));
+            binding.spellNameText.setText("Predicted spell: " + result.first);
+            binding.spellConfidenceText.setText("Confidence: " + String.format("%.2f%%", result.second * 100));
             view.performClick();
             this.drawingStrategy.stopDrawing();
         }
@@ -79,12 +79,12 @@ public class TrainingFragment extends Fragment {
     private void resetUI() {
         drawingStrategy.erase();
         binding.spellNameText.animate().alpha(0).setDuration(300).withEndAction(() -> {
-            binding.spellNameText.setText("Sort prédit : None");
+            binding.spellNameText.setText("Predicted spell: None");
             binding.spellNameText.setAlpha(1);
         });
 
         binding.spellConfidenceText.animate().alpha(0).setDuration(300).withEndAction(() -> {
-            binding.spellConfidenceText.setText("Confiance : 0%");
+            binding.spellConfidenceText.setText("Confidence: 0%");
             binding.spellConfidenceText.setAlpha(1);
         });
     }
