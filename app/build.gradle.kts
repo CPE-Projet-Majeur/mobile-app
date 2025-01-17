@@ -42,6 +42,9 @@ android {
 
 dependencies {
     implementation("org.tensorflow:tensorflow-lite:+")
+    implementation(libs.jackson.core)
+    implementation(libs.jackson.databind)
+    implementation(libs.jackson.annotations)
     implementation(libs.okhttp)
     implementation(libs.osmdroid.android)
     implementation("com.google.zxing:core:3.4.1")

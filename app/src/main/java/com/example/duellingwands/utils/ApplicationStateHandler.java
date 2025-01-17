@@ -8,12 +8,10 @@ import android.hardware.SensorManager;
 
 import androidx.preference.PreferenceManager;
 
+import com.example.duellingwands.model.entities.User;
 import com.example.duellingwands.ui.acquisition.GyroscopeDrawingStrategy;
 import com.example.duellingwands.ui.acquisition.IDrawingStrategy;
 import com.example.duellingwands.ui.acquisition.TouchDrawingStrategy;
-
-import okhttp3.WebSocket;
-import okhttp3.WebSocketListener;
 
 /**
  * This class is used to handle the application state. Used mostly for dependency injection.
@@ -21,6 +19,8 @@ import okhttp3.WebSocketListener;
 public class ApplicationStateHandler {
 
 //    private static WebSocket socket;
+
+    private static User currentUser = null;
 
     public static String SERVER_URL = "https://6fe3-2a01-cb14-11c3-de00-895b-f901-2fda-9e4.ngrok-free.app";
 
@@ -43,11 +43,17 @@ public class ApplicationStateHandler {
         }
     }
 
-//    public static WebSocket getSocket() {
-//        return ApplicationStateHandler.socket;
-//    }
-//
-//    public static void setSocket(WebSocket webSocket) {
-//        ApplicationStateHandler.socket = webSocket;
-//    }
+    public static void disconectUser(Context context) {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        sharedPreferences.edit().remove("user_id").apply();
+        ApplicationStateHandler.currentUser = null;
+    }
+
+    public static void setCurrentUser(User currentUser) {
+        ApplicationStateHandler.currentUser = currentUser;
+    }
+
+    public static User getCurrentUser() {
+        return currentUser;
+    }
 }
