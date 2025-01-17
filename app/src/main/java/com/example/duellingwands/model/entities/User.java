@@ -16,12 +16,20 @@ public class User extends BaseObservable {
     private int id;
     private String firstName;
     private String lastName;
-    private int account;
+    private float account;
     private House house;
     private String email;
 
-    // ======================= GETTERS / SETTERS =======================
+    public User(int id, String firstName, String lastName, float account, String house, String email) {
+        this.setId(id);
+        this.setFirstName(firstName);
+        this.setLastName(lastName);
+        this.setEmail(email);
+        this.setAccount(account);
+        this.setHouse(house);
+    }
 
+    // ======================= GETTERS / SETTERS =======================
 
     public int getId() {
         return id;
@@ -60,11 +68,11 @@ public class User extends BaseObservable {
     }
 
     @Bindable
-    public int getAccount(){
+    public float getAccount(){
         return account;
     }
 
-    public void setAccount(int val){
+    public void setAccount(float val){
         account = val;
         notifyPropertyChanged(BR.account);
     }

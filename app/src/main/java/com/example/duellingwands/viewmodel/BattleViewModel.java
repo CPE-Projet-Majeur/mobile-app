@@ -44,13 +44,7 @@ public class BattleViewModel extends ViewModel {
 
     public BattleViewModel() {
         // Initialisation du joueur pour les tests (temporaire)
-        player = new User();
-        player.setId(1);
-        player.setFirstName("a");
-        player.setLastName("b");
-        player.setEmail("a.b@email.fr");
-        player.setAccount(10);
-        player.setHouse("GRYFFINDOR");
+        player = ApplicationStateHandler.getCurrentUser();
 
         // Initialiser le Socket.IO
         initializeSocket();

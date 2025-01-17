@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.example.duellingwands.R;
 import com.example.duellingwands.model.entities.User;
+import com.example.duellingwands.utils.ApplicationStateHandler;
 
 public class UserViewModel extends ViewModel {
 
@@ -15,12 +16,7 @@ public class UserViewModel extends ViewModel {
     // TODO : use sharedPreferences*
 
     public UserViewModel() {
-        user = new User();
-        user.setFirstName("John Doe");
-        user.setEmail("james.moore.wayne@example-pet-store.com");
-        user.setHouse("Gryffindor");
-        user.setAccount(100);
-        setHouseIcon(getHouseIconFromUser(user));
+        user = ApplicationStateHandler.getCurrentUser();
     }
 
     public User getUser() {
@@ -35,15 +31,15 @@ public class UserViewModel extends ViewModel {
         this.houseIcon.setValue(houseIcon);
     }
 
-    public int getHouseIconFromUser(User user) {
-        switch (user.getHouse().toLowerCase()) {
-            case "gryffindor":
+    public int getHouseIconFromUser(String house) {
+        switch (house) {
+            case "GRYFFINDOR":
                 return R.drawable.gryffindor;
-            case "slytherin":
+            case "SLYTHERIN":
                 return R.drawable.slytherin;
-            case "ravenclaw":
+            case "RAVENCLAW":
                 return R.drawable.ravenclaw;
-            case "hufflepuff":
+            case "HUFFLEPUFF":
                 return R.drawable.hufflepuff;
             default:
                 return R.drawable.ic_launcher_foreground;
