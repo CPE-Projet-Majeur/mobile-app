@@ -51,7 +51,7 @@
                 android:textColor="?attr/colorOnSurface"
                 android:gravity="center"
                 android:layout_marginTop="8dp" />
-            
+
             <EditText
                 android:id="@+id/manualCodeInput"
                 android:layout_width="match_parent"

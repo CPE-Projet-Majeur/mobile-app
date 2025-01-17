@@ -116,8 +116,7 @@ public class BattleFragment extends Fragment {
                         .show();
             }
         });
-
-        battleViewModel.simulateHpLoss();
+        
         return binding.getRoot();
     }
 
