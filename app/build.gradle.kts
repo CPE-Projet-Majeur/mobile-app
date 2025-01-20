@@ -8,7 +8,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.duellingwands"
-        minSdk = 24
+        minSdk = 27
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -42,6 +42,9 @@ android {
 
 dependencies {
     implementation("org.tensorflow:tensorflow-lite:+")
+    implementation(libs.jackson.core)
+    implementation(libs.jackson.databind)
+    implementation(libs.jackson.annotations)
     implementation(libs.okhttp)
     implementation(libs.osmdroid.android)
     implementation("com.google.zxing:core:3.4.1")
@@ -52,6 +55,10 @@ dependencies {
     implementation(libs.constraintlayout)
     implementation(libs.preference.ktx)
     implementation(libs.preference)
+    implementation(libs.socket.io.client)
+    implementation(files("src/main/assets/LeonidsLib-1.3.2.jar"))
+    implementation(libs.glide)
+    annotationProcessor(libs.compiler)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)

@@ -7,4 +7,13 @@
     <color name="gray">#FFF3EDF7</color>
     <color name="blueDark">#1565C0</color>
     <color name="grayDark">#2D2D2D</color>
+    <color name="redLight">#FF4444</color>
+    <color name="menu_background_light">#4A2F27</color>
+    <color name="menu_item_active_light">#FFD700</color>
+    <color name="menu_item_inactive_light">#F5DEB3</color>
+    <color name="menu_item_text_light">#FFFFFF</color>
+    <color name="menu_background_dark">#2F1F19</color>
+    <color name="menu_item_active_dark">#BF9B00</color>
+    <color name="menu_item_inactive_dark">#6A5D4C</color>
+    <color name="menu_item_text_dark">#CCCCCC</color>
 </resources>

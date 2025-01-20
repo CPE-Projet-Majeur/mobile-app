@@ -13,21 +13,48 @@ enum House {
 }
 
 public class User extends BaseObservable {
-    private String name;
-    private int account;
+    private int id;
+    private String firstName;
+    private String lastName;
+    private float account;
     private House house;
     private String email;
 
-    // ======================= GETTERS / SETTERS =======================
-
-    @Bindable
-    public String getName(){
-        return name;
+    public User(int id, String firstName, String lastName, float account, String house, String email) {
+        this.setId(id);
+        this.setFirstName(firstName);
+        this.setLastName(lastName);
+        this.setEmail(email);
+        this.setAccount(account);
+        this.setHouse(house);
     }
 
-    public void setName(String val){
-        name = val;
-        notifyPropertyChanged(BR.name);
+    // ======================= GETTERS / SETTERS =======================
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    @Bindable
+    public String getFirstName(){
+        return firstName;
+    }
+
+    public void setFirstName(String val){
+        firstName = val;
+        notifyPropertyChanged(BR.firstName);
+    }
+
+    public String getLastName(){
+        return lastName;
+    }
+
+    public void setLastName(String val){
+        lastName = val;
     }
 
     @Bindable
@@ -41,11 +68,11 @@ public class User extends BaseObservable {
     }
 
     @Bindable
-    public int getAccount(){
+    public float getAccount(){
         return account;
     }
 
-    public void setAccount(int val){
+    public void setAccount(float val){
         account = val;
         notifyPropertyChanged(BR.account);
     }

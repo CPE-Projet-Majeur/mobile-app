@@ -8,6 +8,7 @@ import android.hardware.SensorManager;
 
 import androidx.preference.PreferenceManager;
 
+import com.example.duellingwands.model.entities.User;
 import com.example.duellingwands.ui.acquisition.GyroscopeDrawingStrategy;
 import com.example.duellingwands.ui.acquisition.IDrawingStrategy;
 import com.example.duellingwands.ui.acquisition.TouchDrawingStrategy;
@@ -16,6 +17,12 @@ import com.example.duellingwands.ui.acquisition.TouchDrawingStrategy;
  * This class is used to handle the application state. Used mostly for dependency injection.
  */
 public class ApplicationStateHandler {
+
+//    private static WebSocket socket;
+
+    private static User currentUser = null;
+
+    public static String SERVER_URL = "http://duelingwands.ddns.net";
 
     /**
      * This method is used to get the drawing strategy from the user's preferences.
@@ -34,5 +41,19 @@ public class ApplicationStateHandler {
                 SensorManager sensorManager = (SensorManager) context.getSystemService(SENSOR_SERVICE);
                 return new GyroscopeDrawingStrategy(sensorManager);
         }
+    }
+
+    public static void disconectUser(Context context) {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        sharedPreferences.edit().remove("user_id").apply();
+        ApplicationStateHandler.currentUser = null;
+    }
+
+    public static void setCurrentUser(User currentUser) {
+        ApplicationStateHandler.currentUser = currentUser;
+    }
+
+    public static User getCurrentUser() {
+        return currentUser;
     }
 }

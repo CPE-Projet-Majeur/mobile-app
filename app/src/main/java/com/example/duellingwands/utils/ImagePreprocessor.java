@@ -3,8 +3,10 @@ package com.example.duellingwands.utils;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.os.Environment;
 import android.util.Log;
+import android.view.ViewDebug;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -19,7 +21,7 @@ public class ImagePreprocessor {
 
     public static float[][] preprocessImage(Bitmap image, Context context) {
         Bitmap bmp280 = Bitmap.createScaledBitmap(image, 280, 280, true);
-        saveBitmapToFile(bmp280, context, "bmp280.png"); // Dev
+        saveBitmapToFile(bmp280, context, "bmp280.jpg"); // Dev
         // Crop
 //        int[] bounds = findBoundingBox(bmp280);
 //        int minX = bounds[0] - 10;
@@ -34,11 +36,12 @@ public class ImagePreprocessor {
 //        Bitmap cropped = Bitmap.createBitmap(image, minX, minY, width, height);
 //        saveBitmapToFile(cropped, context, "cropped_image.png"); // Dev
         // Resize
-        Bitmap resizedImage = Bitmap.createScaledBitmap(bmp280, MODEL_WIDTH, MODEL_HEIGHT, true);
+        Bitmap rotatedBitmap = rotateBitmap(bmp280, -90);
+        Bitmap resizedImage = Bitmap.createScaledBitmap(rotatedBitmap, MODEL_WIDTH, MODEL_HEIGHT, true);
         float[][] pixels = new float[1][MODEL_WIDTH*MODEL_HEIGHT];
         // Dev
-            saveBitmapToFile(resizedImage, context, "resized_image.png");
-            Bitmap grayscaleBitmap = Bitmap.createBitmap(MODEL_WIDTH, MODEL_HEIGHT, Bitmap.Config.ARGB_8888);
+        saveBitmapToFile(resizedImage, context, "resized_image.jpg");
+        Bitmap grayscaleBitmap = Bitmap.createBitmap(MODEL_WIDTH, MODEL_HEIGHT, Bitmap.Config.ARGB_8888);
         // Grayscale and normalize
         for (int x = 0; x < MODEL_WIDTH; x++) {
             for (int y = 0; y < MODEL_HEIGHT; y++) {
@@ -53,7 +56,7 @@ public class ImagePreprocessor {
             }
         }
         // Save the grayscale image for visualization (Dev)
-        saveBitmapToFile(grayscaleBitmap, context, "preprocessed_image.png");
+        saveBitmapToFile(grayscaleBitmap, context, "preprocessed_image.jpg");
         Log.d("ImagePreprocessor",  "Path : "+Environment.getExternalStorageDirectory().toString());
 
         Log.d("ImagePreprocessor", "Image preprocessed : " + pixels.length + "x" + pixels[0].length);
@@ -83,6 +86,12 @@ public class ImagePreprocessor {
         return new int[] { minX, minY, maxX, maxY };
     }
 
+    public static Bitmap rotateBitmap(Bitmap source, float angle)
+    {
+        Matrix matrix = new Matrix();
+        matrix.postRotate(angle);
+        return Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(), matrix, true);
+    }
 
     private static void saveBitmapToFile(Bitmap bitmap, Context context, String fileName) {
         try {

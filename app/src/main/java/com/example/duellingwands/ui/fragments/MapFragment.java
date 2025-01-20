@@ -23,6 +23,7 @@ import com.example.duellingwands.R;
 import com.example.duellingwands.databinding.MapFragmentBinding;
 import com.example.duellingwands.model.entities.POI;
 import com.example.duellingwands.ui.activities.ArenaActivity;
+import com.example.duellingwands.ui.activities.BattleActivity;
 import com.example.duellingwands.viewmodel.MapViewModel;
 
 import org.osmdroid.api.IMapController;
@@ -41,7 +42,7 @@ class CustomLocationProvider extends GpsMyLocationProvider {
 
     private MapViewModel viewModel;
     private static final int DISTANCE_THRESHOLD = 100;
-    private static final int RADIUS = 500;
+    private static final int RADIUS = 1000;
     private Location last_location;
 
     public CustomLocationProvider(Context context, MapViewModel viewModel) {
@@ -143,8 +144,9 @@ public class MapFragment extends Fragment  {
         marker.setSubDescription(poi.getType());
         marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
         marker.setOnMarkerClickListener((marker1, mapView) -> {
+            // TODO on prod : check distance
             Log.d("MainActivity", "Clicked on " + poi.getName() + " arena.");
-            Intent intent = new Intent(requireActivity(), ArenaActivity.class);
+            Intent intent = new Intent(requireActivity(), BattleActivity.class); // TODO : ArenaActivity.class);
             intent.putExtra("arenaName", poi.getName());
             startActivity(intent);
             return true;

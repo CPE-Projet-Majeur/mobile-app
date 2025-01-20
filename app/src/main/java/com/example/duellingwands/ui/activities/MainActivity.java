@@ -1,25 +1,16 @@
 package com.example.duellingwands.ui.activities;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.WindowManager;
 
-import androidx.activity.EdgeToEdge;
 import androidx.annotation.Nullable;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.databinding.DataBindingUtil;
 
 import com.example.duellingwands.R;
 import com.example.duellingwands.databinding.MainActivityBinding;
-import com.example.duellingwands.ui.fragments.BattleFragment;
-import com.example.duellingwands.ui.fragments.MapFragment;
 import com.example.duellingwands.ui.fragments.SettingsFragment;
+import com.example.duellingwands.ui.fragments.TournamentFragment;
+import com.example.duellingwands.ui.fragments.TrainingFragment;
+import com.example.duellingwands.ui.fragments.MapFragment;
 import com.example.duellingwands.ui.fragments.UserFragment;
 import com.google.android.material.navigation.NavigationBarView.OnItemSelectedListener;
 
@@ -47,8 +38,11 @@ public class MainActivity extends AbstractActivity {
             case "Settings":
                 loadFragment(new SettingsFragment(), R.id.fragmentContainerView);
                 break;
-            case "Battle":
-                loadFragment(new BattleFragment(), R.id.fragmentContainerView);
+            case "Training":
+                loadFragment(new TrainingFragment(), R.id.fragmentContainerView);
+                break;
+            case "Tournament":
+                loadFragment(new TournamentFragment(), R.id.fragmentContainerView);
                 break;
             default:
                 break;
