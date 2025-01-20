@@ -20,7 +20,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.DuellingWands"
-        tools:targetApi="31"><!--android:networkSecurityConfig="@xml/network"-->
+        tools:targetApi="31"
+        android:networkSecurityConfig="@xml/network">
         <activity
             android:name=".ui.activities.LoginActivity"
             android:exported="true">

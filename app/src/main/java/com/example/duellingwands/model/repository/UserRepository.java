@@ -3,6 +3,7 @@ package com.example.duellingwands.model.repository;
 import android.util.Log;
 
 import com.example.duellingwands.model.entities.User;
+import com.example.duellingwands.utils.ApplicationStateHandler;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -21,7 +22,7 @@ import java.security.cert.CertificateException;
 import javax.net.ssl.HostnameVerifier;
 
 public class UserRepository {
-    private static final String API_URL = "https://de04-134-214-214-79.ngrok-free.app/users";
+    private static final String API_URL = ApplicationStateHandler.SERVER_URL + "/users";
     private final OkHttpClient client = new OkHttpClient();
     private final ObjectMapper objectMapper = new ObjectMapper();
     private static UserRepository instance = null;
