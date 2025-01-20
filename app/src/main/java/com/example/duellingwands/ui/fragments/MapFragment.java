@@ -42,7 +42,7 @@ class CustomLocationProvider extends GpsMyLocationProvider {
 
     private MapViewModel viewModel;
     private static final int DISTANCE_THRESHOLD = 100;
-    private static final int RADIUS = 500;
+    private static final int RADIUS = 1000;
     private Location last_location;
 
     public CustomLocationProvider(Context context, MapViewModel viewModel) {
