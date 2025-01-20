@@ -21,6 +21,7 @@ import com.example.duellingwands.utils.ApplicationStateHandler;
 import com.example.duellingwands.viewmodel.LoadingViewModel;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
+import com.plattysoft.leonids.ParticleSystem;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -58,7 +59,7 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         // Apply magical animation to the QR Button
-        applyMagicAnimationToQRButton();
+        MagicAnimation();
     }
 
     // This method is called when a child activity, started with the startActivityForResult()
@@ -94,16 +95,19 @@ public class LoginActivity extends AppCompatActivity {
     private void enableQRScanning() {
         this.binding.connectionContainer.setVisibility(View.VISIBLE);
         this.binding.QRButton.setOnClickListener(view -> {
-            IntentIntegrator intentIntegrator = new IntentIntegrator(LoginActivity.this);
-            intentIntegrator.setOrientationLocked(true);
-            intentIntegrator.setPrompt(":)");
-            intentIntegrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE);
-            intentIntegrator.setCaptureActivity(CustomCaptureActivity.class);
-            intentIntegrator.initiateScan();
+            addMagicParticles();
+            new android.os.Handler().postDelayed(() -> {
+                IntentIntegrator intentIntegrator = new IntentIntegrator(LoginActivity.this);
+                intentIntegrator.setOrientationLocked(true);
+                intentIntegrator.setPrompt(":)");
+                intentIntegrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE);
+                intentIntegrator.setCaptureActivity(CustomCaptureActivity.class);
+                intentIntegrator.initiateScan();
+            }, 500);
         });
     }
 
-    private void applyMagicAnimationToQRButton() {
+    private void MagicAnimation() {
         Animation magicAnimation = AnimationUtils.loadAnimation(this, R.anim.magic_pulse);
         magicAnimation.setAnimationListener(new Animation.AnimationListener() {
             @Override
@@ -115,5 +119,13 @@ public class LoginActivity extends AppCompatActivity {
         });
 
         binding.QRButton.startAnimation(magicAnimation);
+    }
+
+    private void addMagicParticles() {
+        new ParticleSystem(this, 100, R.drawable.sparkle, 1000)
+                .setSpeedRange(0.1f, 0.25f)
+                .setRotationSpeedRange(90, 180)
+                .setScaleRange(0.7f, 1.3f)
+                .oneShot(binding.QRButton, 100);
     }
 }

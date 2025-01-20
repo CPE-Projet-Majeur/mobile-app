@@ -37,22 +37,4 @@ public class PreferenceFragment extends PreferenceFragmentCompat {
             });
         }
     }
-
-    @Override
-    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-        ImageView backgroundGif = new ImageView(requireContext());
-        backgroundGif.setScaleType(ImageView.ScaleType.CENTER_CROP);
-
-        // Charger le GIF avec Glide
-        Glide.with(requireContext())
-                .asGif()
-                .load(R.raw.settings)
-                .into(backgroundGif);
-
-        // Ajouter l'ImageView au parent de la vue des préférences
-        //((ViewGroup) view.getParent()).addView(backgroundGif, 0);
-        ((ViewGroup) view).addView(backgroundGif, 0);
-    }
 }

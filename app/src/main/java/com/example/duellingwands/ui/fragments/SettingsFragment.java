@@ -30,7 +30,7 @@ public class SettingsFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        ImageView backgroundGif = new ImageView(requireContext());
+        ImageView backgroundGif = binding.backgroundGif;
         backgroundGif.setScaleType(ImageView.ScaleType.CENTER_CROP);
 
         // Charger le GIF avec Glide
@@ -38,5 +38,9 @@ public class SettingsFragment extends Fragment {
                 .asGif()
                 .load(R.raw.settings)
                 .into(backgroundGif);
+        getChildFragmentManager()
+                .beginTransaction()
+                .replace(binding.settingsFragmentContainer.getId(), new PreferenceFragment())
+                .commit();
     }
 }

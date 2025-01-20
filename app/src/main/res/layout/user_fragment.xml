@@ -15,6 +15,7 @@
         android:background="?attr/colorSurface">
 
         <LinearLayout
+            android:id="@+id/userFragmentBackground"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -27,11 +28,12 @@
                 android:layout_marginBottom="16dp"
                 android:layout_weight="1"
                 android:padding="30dp"
-                app:cardBackgroundColor="?attr/colorSecondary"
+                app:cardBackgroundColor="?attr/colorContainer"
                 app:cardCornerRadius="12dp"
                 app:cardElevation="4dp"
                 app:strokeWidth="0dp"
-                app:cardUseCompatPadding="true">
+                app:cardUseCompatPadding="true"
+                tools:ignore="PrivateResource">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -71,12 +73,11 @@
                         android:orientation="horizontal">
 
                         <ImageView
-                            android:id="@+id/houseImageView"
-                            android:layout_width="48dp"
-                            android:layout_height="48dp"
-                            android:contentDescription="oki"
-                            android:scaleType="centerCrop"
-                            android:src="@drawable/ic_launcher_foreground" />
+                            android:id="@+id/houseGifView"
+                            android:layout_width="120dp"
+                            android:layout_height="120dp"
+                            android:contentDescription="House GIF"
+                            android:layout_marginEnd="8dp" />
 
                         <TextView
                             style="@style/TextAppearance.Material3.BodyLarge"
@@ -97,10 +98,11 @@
                 android:layout_weight="1"
                 android:padding="16dp"
                 app:cardCornerRadius="12dp"
-                app:cardBackgroundColor="?attr/colorSecondary"
+                app:cardBackgroundColor="?attr/colorContainer"
                 app:cardElevation="4dp"
                 app:strokeWidth="0dp"
-                app:cardUseCompatPadding="true">
+                app:cardUseCompatPadding="true"
+                tools:ignore="PrivateResource">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -147,11 +149,12 @@
                 android:layout_marginBottom="16dp"
                 android:layout_weight="1"
                 android:padding="16dp"
-                app:cardBackgroundColor="?attr/colorSecondary"
+                app:cardBackgroundColor="?attr/colorContainer"
                 app:cardCornerRadius="12dp"
                 app:cardElevation="4dp"
                 app:cardUseCompatPadding="true"
-                app:strokeWidth="0dp">
+                app:strokeWidth="0dp"
+                tools:ignore="PrivateResource">
 
                 <LinearLayout
                     android:layout_width="match_parent"
