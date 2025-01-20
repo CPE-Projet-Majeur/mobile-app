@@ -55,13 +55,13 @@ public class UserFragment extends Fragment {
 
     private Pair<Integer, Integer> getResourcesByHouse(String house) {
         switch (house) {
-            case "Gryffindor":
+            case "GRYFFINDOR":
                 return new Pair<>(R.raw.gryffindor, R.drawable.gryffindor_background);
-            case "Hufflepuff":
+            case "HUFFLEPUFF":
                 return new Pair<>(R.raw.hufflepuff, R.drawable.hufflepuff_background);
-            case "Ravenclaw":
+            case "RAVENCLAW":
                 return new Pair<>(R.raw.ravenclaw, R.drawable.ravenclaw_background);
-            case "Slytherin":
+            case "SLYTHERIN":
                 return new Pair<>(R.raw.slytherin, R.drawable.slytherin_background);
             default:
                 return new Pair<>(R.drawable.ic_launcher_foreground, R.drawable.ic_launcher_background);
