@@ -1,5 +1,7 @@
 package com.example.duellingwands.viewmodel;
 
+import android.util.Log;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -32,6 +34,10 @@ public class UserViewModel extends ViewModel {
     }
 
     public int getHouseIconFromUser(String house) {
+        if (house == null) {
+            Log.e("UserViewModel", "House is null, returning default icon");
+            return R.drawable.ic_launcher_foreground;
+        }
         switch (house) {
             case "GRYFFINDOR":
                 return R.drawable.gryffindor;

@@ -31,7 +31,12 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.activities.MainActivity"/>
-
+        <activity
+            android:name=".ui.activities.CustomCaptureActivity"
+            android:screenOrientation="fullSensor"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            tools:ignore="DiscouragedApi">
+        </activity>
         <activity android:name=".ui.activities.ArenaActivity"/>
         <activity android:name=".ui.activities.BattleActivity" />
     </application>

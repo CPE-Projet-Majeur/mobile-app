@@ -5,6 +5,8 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
@@ -32,24 +34,31 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         this.binding = DataBindingUtil.setContentView(this, R.layout.login_activity);
         this.viewModel = new ViewModelProvider(this).get(LoadingViewModel.class);
+
         // Load main activity when user is loaded
         this.viewModel.isLoaded.observe(this, isLoaded -> {
             Log.d(TAG, "isLoaded = " + isLoaded);
             if (LoadingViewModel.LOADED.equals(isLoaded)) {
                 Intent intent = new Intent(this, MainActivity.class);
                 startActivity(intent);
-            }
-            else if (LoadingViewModel.NOT_LOADED.equals(isLoaded)) {
+            } else if (LoadingViewModel.NOT_LOADED.equals(isLoaded)) {
                 this.showDialog("Error", "The user could not be loaded");
                 ApplicationStateHandler.disconectUser(getApplicationContext());
                 this.enableQRScanning();
             }
         });
+
         // Check if user is already logged in
         this.sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         int userId = this.sharedPreferences.getInt("user_id", -1);
-        if(userId != -1) this.viewModel.loadUser(userId);
-        else this.enableQRScanning();
+        if (userId != -1) {
+            this.viewModel.loadUser(userId);
+        } else {
+            this.enableQRScanning();
+        }
+
+        // Apply magical animation to the QR Button
+        applyMagicAnimationToQRButton();
     }
 
     // This method is called when a child activity, started with the startActivityForResult()
@@ -57,14 +66,14 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         IntentResult intentResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
-        if(intentResult == null || intentResult.getContents() == null) {
+        if (intentResult == null || intentResult.getContents() == null) {
             Log.d(TAG, "onActivityResult: NULL");
             this.showDialog("Error", "Invalid QR Code.");
             return;
         }
         String content = intentResult.getContents();
         Log.d(TAG, "onActivityResult: " + content);
-        if(Integer.parseInt(content) <= 0) {
+        if (Integer.parseInt(content) <= 0) {
             Log.d(TAG, "onActivityResult: INVALID ID");
             this.showDialog("Error", "Invalid User ID");
             return;
@@ -74,7 +83,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    private void showDialog(String title, String message){
+    private void showDialog(String title, String message) {
         new AlertDialog.Builder(this)
                 .setTitle(title)
                 .setMessage(message)
@@ -85,12 +94,26 @@ public class LoginActivity extends AppCompatActivity {
     private void enableQRScanning() {
         this.binding.connectionContainer.setVisibility(View.VISIBLE);
         this.binding.QRButton.setOnClickListener(view -> {
-            // IntentIntegrator delegates the QR SCanning to a ZXING activity
             IntentIntegrator intentIntegrator = new IntentIntegrator(LoginActivity.this);
             intentIntegrator.setOrientationLocked(true);
             intentIntegrator.setPrompt(":)");
             intentIntegrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE);
+            intentIntegrator.setCaptureActivity(CustomCaptureActivity.class);
             intentIntegrator.initiateScan();
         });
+    }
+
+    private void applyMagicAnimationToQRButton() {
+        Animation magicAnimation = AnimationUtils.loadAnimation(this, R.anim.magic_pulse);
+        magicAnimation.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {}
+            @Override
+            public void onAnimationEnd(Animation animation) {binding.QRButton.startAnimation(animation);}
+            @Override
+            public void onAnimationRepeat(Animation animation) {}
+        });
+
+        binding.QRButton.startAnimation(magicAnimation);
     }
 }

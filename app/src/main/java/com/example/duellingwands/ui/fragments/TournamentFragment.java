@@ -19,6 +19,9 @@ import com.example.duellingwands.R;
 import com.example.duellingwands.databinding.TournamentFragmentBinding;
 import com.example.duellingwands.ui.activities.BattleActivity;
 
+import com.example.duellingwands.ui.activities.CustomCaptureActivity;
+import com.example.duellingwands.ui.activities.LoginActivity;
+import com.example.duellingwands.ui.activities.MainActivity;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
@@ -32,15 +35,6 @@ public class TournamentFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.tournament_fragment, container, false);
         setupListeners();
-        binding.scanQrCodeButton.setOnClickListener(v -> {
-            // Utilisation d'IntentIntegrator dans le fragment
-            IntentIntegrator integrator = IntentIntegrator.forSupportFragment(TournamentFragment.this);
-            integrator.setOrientationLocked(true);
-            integrator.setPrompt("Scan Battle QR Code");
-            integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE);
-            integrator.initiateScan();
-        });
-
         return binding.getRoot();
     }
 
@@ -64,12 +58,13 @@ public class TournamentFragment extends Fragment {
 
     private void setupListeners() {
         binding.scanQrCodeButton.setOnClickListener(v -> {
-            String scannedCode = "1234";
-            updateBattleId(scannedCode);
-            binding.scannedCodeText.setText("Scanned Code: " + scannedCode);
-            binding.scannedCodeText.setVisibility(View.VISIBLE);
+            IntentIntegrator intentIntegrator = new IntentIntegrator(this.requireActivity());
+            intentIntegrator.setOrientationLocked(true);
+            intentIntegrator.setPrompt(":)");
+            intentIntegrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE);
+            intentIntegrator.setCaptureActivity(CustomCaptureActivity.class);
+            intentIntegrator.initiateScan();
         });
-
         binding.manualCodeInput.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
